@@ -9,10 +9,15 @@
 .App {
 	text-align: center;
 	font-family: "Work Sans", sans-serif;
+	color: #646464;
 }
 
 h1,
 h2,
 h3 {
 	font-family: "Frank Ruhl Libre", serif;
+}
+
+.page {
+	width: calc(100% - 2rem - 250px);
 }
