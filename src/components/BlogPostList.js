@@ -1,5 +1,10 @@
+import { RecipeCard } from './RecipeCard'
+
 function BlogPostList() {
-	return <></>;
+
+	return (
+		<RecipeCard />
+	);
 }
 
 export default BlogPostList;

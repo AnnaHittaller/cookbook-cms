@@ -1,0 +1,15 @@
+.card {
+    width: 225px;
+    height: 225px;
+    background-color: red;
+    border-radius: 10px 10px 0 0;
+}
+
+.card-caregory {
+    background-color: #FFFDED;
+}
+
+
+.card-bottom {
+    background-color: #FFFDED;
+}
