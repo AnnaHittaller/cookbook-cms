@@ -20,4 +20,13 @@ h3 {
 
 .page {
 	width: calc(100% - 2rem - 250px);
+	padding-bottom: 150px;
+}
+
+p,
+::placeholder,
+input,
+button {
+	font-family: "Work Sans", sans-serif;
+	font-size: 1rem;
 }

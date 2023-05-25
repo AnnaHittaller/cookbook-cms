@@ -1,11 +1,13 @@
 import MainLayout from "../components/MainLayout";
 import "../styles/resultsPage.css";
+import { SearchContext } from "../context/SearchContext";
 
 function ResultsPage() {
+	const { query } = useContext(SearchContext);
 	return (
 		<MainLayout>
 			<div className="page">
-				<h1>Results for:</h1>
+				<h1>Results for: {query}</h1>
 			</div>
 		</MainLayout>
 	);

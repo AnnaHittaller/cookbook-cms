@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import SinglePost from "./components/SinglePost";
+import LoginPage from "./pages/LoginPage";
 
 function AllRoutes() {
 	return (
@@ -9,7 +10,7 @@ function AllRoutes() {
 			<Route path="/my-recipe-book" />
 			<Route path="/add-new-recipe" />
 			<Route path="/recipe/:id" element={<SinglePost />} />
-			<Route path="/login" />
+			<Route path="/login" element={<LoginPage/>}/>
 			<Route path="/search-results" />
 			<Route path="*" />
 		</Routes>
