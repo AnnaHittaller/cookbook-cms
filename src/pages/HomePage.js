@@ -14,11 +14,12 @@ function HomePage() {
 				const response = await client.getEntries({
 					content_type: "recipeCard",
 				});
-				console.log(response);
-				if(response.ok){
-					setPosts(response);
-					console.log("posts",posts);
-				}
+				//console.log(response);
+				setPosts(response.items);
+				// if(response.ok){
+				// 	setPosts(response);
+				// 	console.log("posts",posts);
+				// }
 			} catch (error) {
 				console.log(error.message);
 			}
@@ -27,6 +28,7 @@ function HomePage() {
 	}, []);
 
 	console.log("rerender");
+	console.log("posts", posts);
 
 	return (
 		<MainLayout>
