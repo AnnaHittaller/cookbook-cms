@@ -14,11 +14,13 @@ function HomePage() {
 				const response = await client.getEntries({
 					content_type: "recipeCard",
 				});
-				console.log(response);
+
+				//console.log(response);
 				setPosts(response.items);
-				// if (response.ok) {
+				// if(response.ok){
 				// 	setPosts(response);
-				// 	console.log("posts", posts);
+				// 	console.log("posts",posts);
+
 				// }
 			} catch (error) {
 				console.log(error.message);
@@ -30,17 +32,16 @@ function HomePage() {
 	}, []);
 
 	console.log("rerender");
-	// console.log(posts[0].fields.recipeImage.fields)
 
-
-
+	console.log("posts", posts);
 
 	return (
 		<MainLayout>
-			<div className="page">
-				<FeaturedRecipe />
-				<h1>Top recipes</h1>
-				<BlogPostList posts={posts} />
+			<div className="page home">
+				<FeaturedRecipe/>
+				<h1 className="main-h1">Top recipes</h1>
+					<BlogPostList posts={posts} />
+
 			</div>
 		</MainLayout>
 	);

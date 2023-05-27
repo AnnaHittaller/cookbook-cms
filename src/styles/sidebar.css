@@ -15,20 +15,64 @@ aside form input {
 	border-radius: 20px;
 	padding: 0.25rem 0.75rem;
 	width: 100%;
-    background-color: transparent;
-    outline: none;
+	background-color: transparent;
+	outline: none;
 }
 
 aside form button {
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    color: white;
-    background-color: #008080;
-    border: none;
-    outline: none;
-    width: 27px;
-    border-radius: 50%;
+	position: absolute;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	color: white;
+	background-color: #008080;
+	border: none;
+	outline: none;
+	width: 27px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+
+.categories {
+	width: 100%;
+	padding: 1rem 0;
+	display: flex;
+	flex-wrap: wrap;
+    gap: .5rem;
+}
+
+.categories a {
+	background-color: #fff172;
+	font-size: 1rem;
+	padding: 0.5em 0.75em;
+	border-radius: 20px;
+	
     cursor: pointer;
+    transition: .2s ease;
+    text-decoration: none;
+    color: unset;
+}
+
+.categories a:hover {
+    box-shadow: 0 0 4px #008080;
+}
+
+.categories a:visited {
+     color: unset;
+}
+
+aside > div {
+    padding: 2rem 0;
+}
+
+aside > div h3 {
+    text-align: left;
+}
+
+@media only screen and (max-width: 768px) {
+
+	aside {
+		min-height: unset;
+	margin-bottom: 4rem;
+}
 }
