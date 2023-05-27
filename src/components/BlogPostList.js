@@ -1,9 +1,12 @@
 import { RecipeCard } from './RecipeCard'
 
-function BlogPostList() {
+function BlogPostList({ posts }) {
 
 	return (
-		<RecipeCard />
+		<div className='blog-post-list'>
+			<RecipeCard posts={posts} />
+		</div>
+
 	);
 }
 

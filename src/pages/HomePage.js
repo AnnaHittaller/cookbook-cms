@@ -15,25 +15,32 @@ function HomePage() {
 					content_type: "recipeCard",
 				});
 				console.log(response);
-				if(response.ok){
-					setPosts(response);
-					console.log("posts",posts);
-				}
+				setPosts(response.items);
+				// if (response.ok) {
+				// 	setPosts(response);
+				// 	console.log("posts", posts);
+				// }
 			} catch (error) {
 				console.log(error.message);
 			}
+
 		};
 		fetchPosts();
+
 	}, []);
 
 	console.log("rerender");
+	// console.log(posts[0].fields.recipeImage.fields)
+
+
+
 
 	return (
 		<MainLayout>
 			<div className="page">
 				<FeaturedRecipe />
 				<h1>Top recipes</h1>
-				<BlogPostList />
+				<BlogPostList posts={posts} />
 			</div>
 		</MainLayout>
 	);
