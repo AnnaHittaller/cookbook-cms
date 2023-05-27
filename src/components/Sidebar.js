@@ -2,11 +2,11 @@ import { useContext } from "react";
 import "../styles/sidebar.css";
 import { IoSearch } from "react-icons/io5";
 import { SearchContext } from "../context/SearchContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Sidebar() {
 	const { query, setQuery } = useContext(SearchContext);
-	const navigate = useNavigate()
+	const navigate = useNavigate();
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -31,6 +31,21 @@ function Sidebar() {
 					<IoSearch />
 				</button>
 			</form>
+			<div>
+				<h3>Categories</h3>
+				<div className="categories">
+					<Link>
+						<span>Breakfast</span>
+					</Link>
+					<Link>
+						<span>Dessert</span>
+					</Link>
+					<Link>
+						<span>Soup</span>
+					</Link>
+					
+				</div>
+			</div>
 		</aside>
 	);
 }

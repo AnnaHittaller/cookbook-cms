@@ -30,3 +30,12 @@ button {
 	font-family: "Work Sans", sans-serif;
 	font-size: 1rem;
 }
+
+@media only screen and (max-width: 768px) {
+
+	.page {
+		width: 100%;
+		padding-bottom: 2rem;
+	}
+	
+}

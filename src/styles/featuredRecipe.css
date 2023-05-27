@@ -1,5 +1,119 @@
 .featured-container {
+	width: 100%;
+	height: 400px;
+	background-color: aqua;
+	position: relative;
+}
+
+.alice-carousel {
+    margin-bottom: 4rem;
+    
+} 
+
+.featured-container img {
     width: 100%;
-    height: 400px;
-    background-color: aqua;
+	height: 100%;
+	object-fit: cover;
+}
+
+.alice-carousel__prev-btn,
+.alice-carousel__next-btn {
+	background-color: #fff172;
+	padding: 0.5rem;
+	border-radius: 50%;
+	width: 50px !important;
+	height: 50px;
+	position: absolute;
+	display: flex !important;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.alice-carousel__prev-btn {
+	top: 175px;
+	left: -25px;
+}
+
+.alice-carousel__next-btn {
+	top: 175px;
+	right: -25px;
+}
+
+.alice-carousel svg path {
+	color: #646464;
+}
+
+.alice-carousel__prev-btn-item,
+.alice-carousel__next-btn-item {
+	height: 50px;
+	display: flex !important;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.alice-carousel__dots-item:not(.__custom) {
+	background-color: #fff172 !important;
+	width: 10px !important;
+	height: 10px !important;
+}
+
+.alice-carousel__dots-item:hover {
+	background-color: #008080 !important;
+}
+
+.alice-carousel__dots-item:not(.__custom).__active {
+	background-color: #008080 !important;
+}
+
+.featured-data {
+	position: absolute;
+	background-color: rgba(255, 255, 255, 0.8);
+	padding: 1rem;
+	min-width: 70%;
+	height: 50%;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: stretch;
+}
+
+.featured-data div {
+	border: 3px solid #008080;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 1rem;
+	padding: 1rem;
+}
+
+.featured-data h2 {
+	color: #008080;
+	font-size: 2.5rem;
+}
+
+.featured-data p:nth-of-type(1) {
+	font-weight: 500;
+	background-color: #fff172;
+	border-radius: 20px;
+	padding: 0.5rem 0.75rem;
+}
+
+.featured-data p:nth-of-type(2) {
+	line-height: 1.5;
+}
+
+
+@media only screen and (max-width: 768px) {
+
+	.alice-carousel {
+	margin-top: 40rem;
+}
 }

@@ -22,6 +22,14 @@ header {
 	color: #008080;
 	font-size: 36px;
 	font-weight: 600;
+	display: flex;
+	gap: 1rem;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.logo img {
+	height: 50px;
 }
 
 nav {
@@ -57,4 +65,26 @@ nav button {
 
 nav button:hover {
 	color: #008080;
+}
+
+
+@media only screen and (max-width: 820px) {
+
+	nav h3 {
+		font-size: 1rem;
+	}
+
+	.nav-wrapper {
+		flex-direction: column;
+		gap: 2rem;
+	}
+
+	nav {
+		justify-content: space-around;
+	}
+
+	.logo {
+		justify-content: center;
+	}
+
 }

@@ -32,9 +32,9 @@ function HomePage() {
 
 	return (
 		<MainLayout>
-			<div className="page">
-				<FeaturedRecipe />
-				<h1>Top recipes</h1>
+			<div className="page home">
+				<FeaturedRecipe/>
+				<h1 className="main-h1">Top recipes</h1>
 				<BlogPostList />
 			</div>
 		</MainLayout>
