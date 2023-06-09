@@ -1,12 +1,15 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import "../styles/sidebar.css";
 import { IoSearch } from "react-icons/io5";
 import { SearchContext } from "../context/SearchContext";
 import { Link, useNavigate } from "react-router-dom";
+import client from "../utils/Contentful";
 
 function Sidebar() {
-	const { query, setQuery } = useContext(SearchContext);
+	const { query, setQuery, setCategory, category } = useContext(SearchContext);
 	const navigate = useNavigate();
+	const [categories, setCategories] = useState([])
+	
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -14,8 +17,31 @@ function Sidebar() {
 			alert("Please type something");
 			return;
 		}
-		navigate("/results");
+		navigate("/search-results");
+		
 	};
+
+	useEffect(() => {
+		const fetchCategories = async () => {
+			try {
+				const response = await client.getEntries({
+					content_type: "recipeCard",
+					select: "fields.category",
+					limit: 20,
+				});
+
+				const categories = Array.from(
+					new Set(response.items.map((item) => item.fields.category))
+				);
+				setCategories(categories);
+			} catch (error) {
+				console.log(error.message);
+			}
+		};
+
+		fetchCategories();
+	}, []);
+
 
 	return (
 		<aside>
@@ -34,16 +60,14 @@ function Sidebar() {
 			<div>
 				<h3>Categories</h3>
 				<div className="categories">
-					<Link>
-						<span>Breakfast</span>
-					</Link>
-					<Link>
-						<span>Dessert</span>
-					</Link>
-					<Link>
-						<span>Soup</span>
-					</Link>
-					
+					{categories.map((category, idx) => (
+						<Link
+							key={idx}
+							to="/category"
+							onClick={() => setCategory(category)}>
+							<span>{category}</span>
+						</Link>
+					))}
 				</div>
 			</div>
 		</aside>

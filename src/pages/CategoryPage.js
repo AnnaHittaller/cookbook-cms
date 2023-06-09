@@ -1,71 +1,44 @@
 import MainLayout from "../components/MainLayout";
-import "../styles/resultsPage.css";
+import "../styles/categoryPage.css";
 import { SearchContext } from "../context/SearchContext";
 import { useContext, useState, useEffect } from "react";
 import client from "../utils/Contentful";
-import { Link } from "react-router-dom";
 import "../styles/recipeCard.css";
 import { AiOutlineClockCircle } from "react-icons/ai";
+import { Link, useNavigate } from "react-router-dom";
 
-
-function ResultsPage() {
-	const { query, setQuery } = useContext(SearchContext);
+function CategoryPage() {
+	const { query, setQuery, category } = useContext(SearchContext);
 	const [posts, setPosts] = useState([]);
-	console.log(query, '*********')
+    const navigate = useNavigate();
 
 	useEffect(() => {
 		const fetchPosts = async () => {
 			try {
 				const response = await client.getEntries({
 					content_type: "recipeCard",
+					"fields.category": category,
+					limit: 20,
 				});
 
-				//console.log(query, response.items[0]);
-
-				// 	console.log("posts",posts);
-
-				// if (window.location.pathname === "/category") {
-				// const filteredPosts = response.items.filter(
-				// 	(item) => {
-				// 		const { category } = item.fields;
-				// 		const lowerCaseQuery = query.toLowerCase();
-
-				// 		return category.toLowerCase() === lowerCaseQuery;
-				// 	}
-				// );
-				// setPosts(filteredPosts);
-
-				// } else {
-
-					const filteredPosts = response.items.filter(
-						(item) => {
-							const { recipeTitle, summary, prep1 } = item.fields;
-							const lowerCaseQuery = query.toLowerCase();
-	
-							return (
-								recipeTitle?.toLowerCase().includes(lowerCaseQuery) ||
-								summary?.toLowerCase().includes(lowerCaseQuery) ||
-								prep1?.toLowerCase().includes(lowerCaseQuery)
-							);
-						}
-					);
-					setPosts(filteredPosts);
-				//}
-
-
-				//console.log("filtered",filteredPosts)
+				setPosts(response.items);
 			} catch (error) {
-				console.log(error.message);
+                console.log(error.message);
 			}
 		};
 		fetchPosts();
-	}, [query]);
-	
-	//setQuery("")
+        setQuery("")
+    
+	}, [category]);
+
+
+
 	return (
 		<MainLayout>
 			<div className="page">
-				<h1>Results for: {query}</h1>
+				<h1>
+					Recipes in the <span>{category} </span>category
+				</h1>
 				<div className="cards">
 					{posts && posts.length > 0 ? (
 						posts.map((item, index) => (
@@ -92,7 +65,7 @@ function ResultsPage() {
 							</Link>
 						))
 					) : (
-						<p>There are no matching recipes</p>
+						<p>There are no recipes in this category</p>
 					)}
 				</div>
 			</div>
@@ -100,4 +73,4 @@ function ResultsPage() {
 	);
 }
 
-export default ResultsPage;
+export default CategoryPage;

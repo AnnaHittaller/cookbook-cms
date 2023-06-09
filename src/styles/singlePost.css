@@ -7,6 +7,7 @@
 .single-post h1 {
 	color: #008080;
     align-self: center;
+    padding-bottom: 1rem;
 }
 
 .single-post {
@@ -32,6 +33,13 @@
     color: #969696;
 }
 
+.meta-data button {
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
 .like-icon {
 	color: pink;
 	font-size: 2rem;
@@ -50,4 +58,8 @@
     padding-left: 1rem;
     line-height: 1.5;
     margin-bottom: 1rem;
+}
+
+.single-post ul li, .single-post ol li {
+    text-align: left;
 }
