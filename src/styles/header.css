@@ -3,6 +3,7 @@ header {
 	width: 100vw;
 	position: fixed;
 	top: 0;
+	left: 0;
 	background-color: #fffded;
 	border-bottom: 3px solid #008080;
 	padding: 2rem;
@@ -15,7 +16,7 @@ header {
 	display: flex;
 	justify-content: space-between;
 	width: 100%;
-	max-width: 1000px;
+	max-width: 1100px;
 }
 
 .logo {
@@ -27,6 +28,7 @@ header {
 	gap: 1rem;
 	justify-content: flex-start;
 	align-items: center;
+	cursor: pointer;
 }
 
 .logo img {

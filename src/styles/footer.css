@@ -4,9 +4,9 @@ footer {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100vw;
-   
-    position: fixed;
+    width: 100%;
+    z-index: 10;
+    position: sticky;
     left: 0;
     right: 0;
     bottom: 0;

@@ -1,14 +1,18 @@
 .featured-container {
 	width: 100%;
 	height: 400px;
-	background-color: aqua;
+	background-color: #fff1729a;
 	position: relative;
 }
 
 .alice-carousel {
     margin-bottom: 4rem;
-    
+    width: 100%;
 } 
+
+.alice-carousel__stage, li.alice-carousel__stage-item.__active.__target {
+	width: 100% !important;
+}
 
 .featured-container img {
     width: 100%;
@@ -67,12 +71,17 @@
 	background-color: #008080 !important;
 }
 
+.featured-container a {
+	width: 100%;
+	height: 100%;
+}
+
 .featured-data {
 	position: absolute;
 	background-color: rgba(255, 255, 255, 0.8);
 	padding: 1rem;
 	min-width: 70%;
-	height: 50%;
+	min-height: 50%;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
@@ -91,7 +100,7 @@
 	justify-content: center;
 	align-items: center;
 	gap: 1rem;
-	padding: 1rem;
+	padding: 2rem;
 }
 
 .featured-data h2 {

@@ -2,6 +2,7 @@ import Header from "./Header";
 import Sidebar from "./Sidebar";
 import "../styles/mainLayout.css";
 import Footer from "./Footer";
+import ScrollToTopButton from "./ScrollToTopButton";
 
 function MainLayout({ children }) {
 	return (
@@ -11,7 +12,8 @@ function MainLayout({ children }) {
 				{children}
 				<Sidebar />
 			</div>
-            <Footer/>
+			<ScrollToTopButton />
+			<Footer />
 		</div>
 	);
 }

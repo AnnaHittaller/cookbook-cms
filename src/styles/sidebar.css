@@ -1,7 +1,7 @@
 aside {
 	background-color: #fffded;
 	min-height: 50vh;
-	min-width: 250px;
+	width: 260px;
 	padding: 1rem;
 }
 
@@ -28,7 +28,7 @@ aside form button {
 	background-color: #008080;
 	border: none;
 	outline: none;
-	width: 27px;
+	width: 31px;
 	border-radius: 50%;
 	cursor: pointer;
 }
@@ -72,7 +72,7 @@ aside > div h3 {
 @media only screen and (max-width: 768px) {
 
 	aside {
-		min-height: unset;
+	min-height: unset;
 	margin-bottom: 4rem;
 }
 }

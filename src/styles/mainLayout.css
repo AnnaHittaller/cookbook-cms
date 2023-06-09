@@ -1,12 +1,12 @@
 .main {
 	display: flex;
 	flex-direction: column;
-	width: 100vw;
 	width: calc(100% - 2rem);
+	width: 100%;
 	min-height: 100vh;
 	padding-top: 100px;
 	justify-content: flex-start;
-	
+	margin: 0 auto;
 	overflow-y: hidden;
 }
 
@@ -17,9 +17,9 @@
 	justify-content: space-between;
 	padding-top: 4rem;
 	padding: 2rem;
-	max-width: 1000px;
+	max-width: 1200px;
 	gap: 2rem;
-	height: 100%;
+	min-height: calc(100vh - 117px - 50px);
 }
 
 @media only screen and (max-width: 768px) {
@@ -29,6 +29,10 @@
 
 	.main {
 		width: 100%;
+	}
+
+	aside {
+		width: unset;
 	}
 	
 }
