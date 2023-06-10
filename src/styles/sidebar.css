@@ -73,6 +73,6 @@ aside > div h3 {
 
 	aside {
 	min-height: unset;
-	margin-bottom: 4rem;
+	width: 100%;
 }
 }

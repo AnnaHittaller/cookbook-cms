@@ -11,7 +11,7 @@ import { AiOutlineClockCircle } from "react-icons/ai";
 function ResultsPage() {
 	const { query, setQuery } = useContext(SearchContext);
 	const [posts, setPosts] = useState([]);
-	console.log(query, '*********')
+	//console.log(query, '*********')
 
 	useEffect(() => {
 		const fetchPosts = async () => {
