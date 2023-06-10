@@ -27,18 +27,36 @@ span.rti--tag {
 	gap: 0.5rem;
 }
 
-.add-new-form input:not([name="ingredients"]), select, option, textarea {
+.add-new-form input:not([name="ingredients"]),
+select,
+option,
+textarea {
 	padding: .5rem;
 	border-radius: 20px;
 	border: 1px solid #b6b6b6;
 	outline: none;
-	align-self: center;
-	min-width: 250px;
+	/* align-self: center; */
+	/* min-width: 250px; */
 }
 
-.add-new-form input:not([name="ingredients"]):focus, select:focus, textarea:focus{
+.add-new-form div {
+	/* align-self: center; */
+	width: 100%;
+}
+
+input#image {
+	width: 100%;
+}
+
+.image {
+	padding-bottom: 0.5rem;
+}
+
+.add-new-form input:not([name="ingredients"]):focus,
+select:focus,
+textarea:focus {
 	outline: 1px solid #008080;
-	
+
 }
 
 textarea {
@@ -60,10 +78,24 @@ select {
 	font-weight: bold;
 	color: #646464;
 	outline: none;
-    cursor: pointer;
-    align-self: center;
+	cursor: pointer;
+	align-self: center;
 }
 
 .add-new-btn:hover {
 	box-shadow: 0 0 4px #008080;
+}
+
+.featured-label {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.featured-label div {
+	display: flex;
+	flex-direction: row;
+	width: min-content;
+	gap: 0.5rem;
+	align-self: center;
 }
