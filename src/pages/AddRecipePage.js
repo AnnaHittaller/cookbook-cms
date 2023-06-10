@@ -2,6 +2,9 @@ import { useState } from "react";
 import MainLayout from "../components/MainLayout";
 import "../styles/addRecipe.css";
 import { TagsInput } from "react-tag-input-component";
+import client, { createRecord } from "../utils/Contentful";
+
+
 
 function AddRecipePage() {
 	const [category, setCategory] = useState();
@@ -14,7 +17,23 @@ function AddRecipePage() {
 	const [recipeTitle, setRecipeTitle] = useState();
 	const [slug, setSlug] = useState("");
 	const [summary, setSummary] = useState("");
-	console.log(ingredients);
+	//console.log(ingredients);
+
+	console.log("client", client)
+
+		let today = new Date();
+		let dd = today.getDate();
+
+		let mm = today.getMonth() + 1;
+		const yyyy = today.getFullYear();
+		if (dd < 10) {
+			dd = `0${dd}`;
+		}
+
+		if (mm < 10) {
+			mm = `0${mm}`;
+		}
+
 
 
 	let today = new Date();
@@ -35,8 +54,55 @@ function AddRecipePage() {
 
 
 	const handlesubmit = (e) => {
+
 		e.preventDefault();
-	};
+		//const today = new Date().toLocaleDateString();
+		setDate(today);
+		//console.log(recipeTitle);
+
+		let slugTitle = recipeTitle.toLowerCase().split(" ").join("-");
+		setSlug(slugTitle);
+		//console.log(slug);
+
+		//try {
+			client
+				.getSpace(process.env.REACT_APP_CONTENTFUL_SPACE_ID)
+				.then((space) => {
+					space.getEnvironment("master").then(async (environment) => {
+						environment.createEntry("recipeCard", {
+							fields: {
+							recipeTitle,
+							category,
+							cookingTime,
+							date,
+							summary,
+							ingredients,
+						},
+					})
+				})
+					//space.createEntry("recipeCard", {
+						// await client.getSpace();
+						// const response = await ('recipeCard', {
+					// 	fields: {
+					// 		recipeTitle,
+					// 		category,
+					// 		cookingTime,
+					// 		date,
+					// 		summary,
+					// 		ingredients,
+					// 	},
+					// })
+				//)
+				.then((entry) => console.log(entry))
+				.catch(console.error);
+
+			console.log("New recipe created successfully!")
+			//console.log("response", response)
+		//} catch (error) {
+		//	console.error("Error while creating the new recipe:", error)
+		//}
+	});
+}
 
 	const handleImageChange = (event) => {
 		const selectedImage = event.target.files[0];
@@ -50,11 +116,14 @@ function AddRecipePage() {
 				<form className="add-new-form" onSubmit={handlesubmit}>
 					<label>
 						Recipe title:
+
 						<input type="text"
+
 							maxlength="256"
 							value={recipeTitle}
 							onChange={(e) => setRecipeTitle(e.target.value)}
 							name="recipeTitle"
+
 							placeHolder="Enter recipe title"
 							required />
 					</label>
@@ -67,6 +136,7 @@ function AddRecipePage() {
 					<label value={category} onChange={(e) => setCategory(e.target.value)} required>
 						Category:
 						<select name="category" >
+
 							<option value="">Select an option</option>
 							<option value="breakfast">Breakfast</option>
 							<option value="dessert">Dessert</option>
@@ -77,12 +147,12 @@ function AddRecipePage() {
 							<option value="soup">Soup</option>
 						</select>
 					</label>
-					<label value={today}>
-						Date: {today}
-					</label>
-					<label required>
-						Cooking time:
-						<input type="number"
+
+					<label>
+						Cooking time in minutes:
+						<input
+							type="number"
+
 							value={cookingTime}
 							onChange={(e) => setCookingTime(e.target.value)}
 							name="cookingTitle"
@@ -102,6 +172,9 @@ function AddRecipePage() {
 							name="summary"
 							placeHolder="Enter summary"
 							maxlength="256" />
+                rows="3"
+
+							
 					</label>
 					<label>
 						Ingredients:
@@ -111,8 +184,10 @@ function AddRecipePage() {
 							name="ingredients"
 							placeHolder="Enter ingredients"
 							isEditOnRemove={true}
+							// required
 						/>
 					</label>
+
 					<label required>
 						Preparation:
 						<textarea type="text"
@@ -131,6 +206,9 @@ function AddRecipePage() {
 						<input type="radio" id="yes" name="featured" value="yes" />
 						<label for="yes">Yes</label>
 					</label>
+
+					<label>Date: {today}</label>
+
 					<button className="add-new-btn" type="submit">
 						Add recipe
 					</button>
