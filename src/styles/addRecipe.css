@@ -48,6 +48,10 @@ input#image {
 	width: 100%;
 }
 
+.image {
+	padding-bottom: 0.5rem;
+}
+
 .add-new-form input:not([name="ingredients"]):focus,
 select:focus,
 textarea:focus {
@@ -84,5 +88,14 @@ select {
 
 .featured-label {
 	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.featured-label div {
+	display: flex;
 	flex-direction: row;
+	width: min-content;
+	gap: 0.5rem;
+	align-self: center;
 }

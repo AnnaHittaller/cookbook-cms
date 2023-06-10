@@ -114,7 +114,7 @@ function AddRecipePage() {
 							required />
 					</label>
 					<div required>
-						<label htmlFor="image">Image:</label>
+						<label className="image" htmlFor="image">Image:</label>
 						<input type="file" id="image" accept="image/*" onChange={handleImageChange} />
 						<div>{recipeImage && <img src={recipeImage} alt="Selected" width="100%" />}</div>
 
@@ -185,17 +185,19 @@ function AddRecipePage() {
 							placeHolder="Enter preparation steps"
 							maxlength="50000" />
 					</label>
-					<label className="featured-label" required value={featured} onChange={(e) => setFeatured(e.target.value)}>
+					<div className="featured-label" required value={featured} onChange={(e) => setFeatured(e.target.value)}>
 						<p>Featured:</p>
 						<div>
-							<input type="radio" id="no" name="featured" value="no" defaultChecked />
-							<label for="no">No</label>
+							<div>
+								<input type="radio" id="no" name="featured" value="no" defaultChecked />
+								<label for="no">No</label>
+							</div>
+							<div>
+								<input type="radio" id="yes" name="featured" value="yes" />
+								<label for="yes">Yes</label>
+							</div>
 						</div>
-						<div>
-							<input type="radio" id="yes" name="featured" value="yes" />
-							<label for="yes">Yes</label>
-						</div>
-					</label>
+					</div>
 
 					<label>Date: {today}</label>
 
