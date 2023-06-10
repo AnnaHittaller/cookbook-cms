@@ -9,7 +9,7 @@ import client, { createRecord } from "../utils/Contentful";
 function AddRecipePage() {
 	const [category, setCategory] = useState();
 	const [cookingTime, setCookingTime] = useState();
-	// const [date, setDate] = useState();
+	const [date, setDate] = useState();
 	const [featured, setFeatured] = useState(false);
 	const [ingredients, setIngredients] = useState([]);
 	const [prep1, setPrep1] = useState("");
@@ -20,20 +20,6 @@ function AddRecipePage() {
 	//console.log(ingredients);
 
 	console.log("client", client)
-
-		let today = new Date();
-		let dd = today.getDate();
-
-		let mm = today.getMonth() + 1;
-		const yyyy = today.getFullYear();
-		if (dd < 10) {
-			dd = `0${dd}`;
-		}
-
-		if (mm < 10) {
-			mm = `0${mm}`;
-		}
-
 
 
 	let today = new Date();
@@ -65,12 +51,12 @@ function AddRecipePage() {
 		//console.log(slug);
 
 		//try {
-			client
-				.getSpace(process.env.REACT_APP_CONTENTFUL_SPACE_ID)
-				.then((space) => {
-					space.getEnvironment("master").then(async (environment) => {
-						environment.createEntry("recipeCard", {
-							fields: {
+		client
+			.getSpace(process.env.REACT_APP_CONTENTFUL_SPACE_ID)
+			.then((space) => {
+				space.getEnvironment("master").then(async (environment) => {
+					environment.createEntry("recipeCard", {
+						fields: {
 							recipeTitle,
 							category,
 							cookingTime,
@@ -81,8 +67,8 @@ function AddRecipePage() {
 					})
 				})
 					//space.createEntry("recipeCard", {
-						// await client.getSpace();
-						// const response = await ('recipeCard', {
+					// await client.getSpace();
+					// const response = await ('recipeCard', {
 					// 	fields: {
 					// 		recipeTitle,
 					// 		category,
@@ -92,17 +78,17 @@ function AddRecipePage() {
 					// 		ingredients,
 					// 	},
 					// })
-				//)
-				.then((entry) => console.log(entry))
-				.catch(console.error);
+					//)
+					.then((entry) => console.log(entry))
+					.catch(console.error);
 
-			console.log("New recipe created successfully!")
-			//console.log("response", response)
-		//} catch (error) {
-		//	console.error("Error while creating the new recipe:", error)
-		//}
-	});
-}
+				console.log("New recipe created successfully!")
+				//console.log("response", response)
+				//} catch (error) {
+				//	console.error("Error while creating the new recipe:", error)
+				//}
+			});
+	}
 
 	const handleImageChange = (event) => {
 		const selectedImage = event.target.files[0];
@@ -171,10 +157,11 @@ function AddRecipePage() {
 								setSummary(e.target.value)}
 							name="summary"
 							placeHolder="Enter summary"
-							maxlength="256" />
-                rows="3"
+							maxlength="256"
+							rows="3" />
 
-							
+
+
 					</label>
 					<label>
 						Ingredients:
@@ -184,7 +171,7 @@ function AddRecipePage() {
 							name="ingredients"
 							placeHolder="Enter ingredients"
 							isEditOnRemove={true}
-							// required
+						// required
 						/>
 					</label>
 
@@ -198,13 +185,16 @@ function AddRecipePage() {
 							placeHolder="Enter preparation steps"
 							maxlength="50000" />
 					</label>
-					<p>slug</p>
-					<label required value={featured} onChange={(e) => setFeatured(e.target.value)}>
-						Featured:
-						<input type="radio" id="no" name="featured" value="no" defaultChecked />
-						<label for="no">No</label>
-						<input type="radio" id="yes" name="featured" value="yes" />
-						<label for="yes">Yes</label>
+					<label className="featured-label" required value={featured} onChange={(e) => setFeatured(e.target.value)}>
+						<p>Featured:</p>
+						<div>
+							<input type="radio" id="no" name="featured" value="no" defaultChecked />
+							<label for="no">No</label>
+						</div>
+						<div>
+							<input type="radio" id="yes" name="featured" value="yes" />
+							<label for="yes">Yes</label>
+						</div>
 					</label>
 
 					<label>Date: {today}</label>
