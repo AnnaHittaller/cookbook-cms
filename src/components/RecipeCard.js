@@ -17,8 +17,7 @@ export function RecipeCard({ posts }) {
                 posts.map((item, index) => (
                     <Link className='card'>
                         <div className='card-top'>
-                            <img src="" />
-                            {/* <img src="//images.ctfassets.net/01t4r2gp4nca/7ccj4W6X4W0xiZRro1c56n/3e1b4d37851e2e7ae417ab2989718eb8/Spinach__ricotta_pancake_bake.jpg" /> */}
+                            <img src={item?.fields?.recipeImage?.fields?.file?.url} />
                             <p className='card-category'>{item.fields.category}</p>
                         </div>
                         <div className='card-bottom'>

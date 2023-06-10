@@ -6,7 +6,6 @@
 	min-height: 100vh;
 	padding-top: 100px;
 	justify-content: flex-start;
-	
 	overflow-y: hidden;
 }
 
@@ -17,7 +16,7 @@
 	justify-content: space-between;
 	padding-top: 4rem;
 	padding: 2rem;
-	max-width: 1000px;
+	max-width: 1200px;
 	gap: 2rem;
 	height: 100%;
 }
@@ -30,5 +29,4 @@
 	.main {
 		width: 100%;
 	}
-	
 }
