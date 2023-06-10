@@ -2,9 +2,7 @@ import { useState } from "react";
 import MainLayout from "../components/MainLayout";
 import "../styles/addRecipe.css";
 import { TagsInput } from "react-tag-input-component";
-import client, { createRecord } from "../utils/Contentful";
-
-
+//import client from "../utils/Contentful";
 
 function AddRecipePage() {
 	const [category, setCategory] = useState("");
@@ -19,22 +17,22 @@ function AddRecipePage() {
 	const [summary, setSummary] = useState("");
 	//console.log(ingredients);
 
-	console.log("client", client)
+	//console.log("client", client);
 
-		let today = new Date();
-		let dd = today.getDate();
+	let today = new Date();
+	let dd = today.getDate();
 
-		let mm = today.getMonth() + 1;
-		const yyyy = today.getFullYear();
-		if (dd < 10) {
-			dd = `0${dd}`;
-		}
+	let mm = today.getMonth() + 1;
+	const yyyy = today.getFullYear();
+	if (dd < 10) {
+		dd = `0${dd}`;
+	}
 
-		if (mm < 10) {
-			mm = `0${mm}`;
-		}
+	if (mm < 10) {
+		mm = `0${mm}`;
+	}
 
-		today = `${yyyy}-${mm}-${dd}`;
+	today = `${yyyy}-${mm}-${dd}`;
 
 	const handlesubmit = async (e) => {
 		e.preventDefault();
@@ -46,45 +44,95 @@ function AddRecipePage() {
 		setSlug(slugTitle);
 		//console.log(slug);
 
-		//try {
-			client
-				.getSpace(process.env.REACT_APP_CONTENTFUL_SPACE_ID)
-				.then((space) => {
-					space.getEnvironment("master").then(async (environment) => {
-						environment.createEntry("recipeCard", {
-							fields: {
-							recipeTitle,
-							category,
-							cookingTime,
-							date,
-							summary,
-							ingredients,
-						},
-					})
-				})
-					//space.createEntry("recipeCard", {
-						// await client.getSpace();
-						// const response = await ('recipeCard', {
-					// 	fields: {
-					// 		recipeTitle,
-					// 		category,
-					// 		cookingTime,
-					// 		date,
-					// 		summary,
-					// 		ingredients,
-					// 	},
-					// })
-				//)
-				.then((entry) => console.log(entry))
-				.catch(console.error);
+		const contentful = require("contentful-management");
 
-			console.log("New recipe created successfully!")
-			//console.log("response", response)
-		//} catch (error) {
-		//	console.error("Error while creating the new recipe:", error)
-		//}
-	});
-}
+		const client = contentful.createClient({
+			accessToken: process.env.REACT_APP_CONTENTFUL_ACCESS_TOKEN,
+		});
+
+		// client
+		// 	.getSpace(process.env.REACT_APP_CONTENTFUL_SPACE_ID)
+		// 	.then((space) => space.getEnvironment("master"))
+		// 	.then((environment) =>
+		// 		environment.createEntry("recipeCard", {
+		// 			fields: {
+		// 				recipeTitle: {
+		// 					"en-US": recipeTitle,
+		// 				},
+		// 				cookingTime: {
+		// 					"en-US": cookingTime,
+		// 				},
+		// 				summary: {
+		// 					"en-US": summary,
+		// 				},
+		// 				prep1: {
+		// 					"en-US": prep1,
+		// 				},
+		// 				date: {
+		// 					"en-US": date,
+		// 				},
+		// 				slug: {
+		// 					"en-US": slug,
+		// 				},
+		// 				featured: {
+		// 					"en-US": featured,
+		// 				},
+		// 			},
+		// 		})
+		// 	)
+		// 	.then((entry) => console.log(entry))
+		// 	.catch(console.error);
+
+		try {
+			const response = await fetch(
+				`https://api.contentful.com/spaces/${process.env.REACT_APP_CONTENTFUL_SPACE_ID}/environments/master/entries`,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/vnd.contentful.management.v1+json",
+						Authorization: `Bearer ${process.env.REACT_APP_CONTENTFUL_CM_TOKEN}`,
+						"X-Contentful-Content-Type": "recipeCard",
+						//accessToken: process.env.REACT_APP_CONTENTFUL_CM_TOKEN,
+					},
+					body: JSON.stringify({
+						fields: {
+							recipeTitle: {
+								"en-US": recipeTitle,
+							},
+							cookingTime: {
+								"en-US": cookingTime,
+							},
+							summary: {
+								"en-US": summary,
+							},
+							prep1: {
+								"en-US": prep1,
+							},
+							date: {
+								"en-US": date,
+							},
+							slug: {
+								"en-US": slug,
+							},
+							featured: {
+								"en-US": featured,
+							},
+						},
+					}),
+				}
+			);
+
+			if (response.ok) {
+				console.log("New recipe created successfully!");
+				//const data = await response.json();
+				//console.log(data);
+			} else {
+				console.error("Something went wrong...");
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	};
 
 	return (
 		<MainLayout>
