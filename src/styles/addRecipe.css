@@ -7,6 +7,11 @@ span.rti--tag {
 	box-shadow: #008080 0 0 0 1px !important;
 }
 
+.rti--container {
+	border-radius: 20px !important;
+	border: 1px solid #b6b6b6 !important;
+}
+
 .add-new-form {
 	padding-top: 2rem;
 	display: flex;
@@ -20,6 +25,28 @@ span.rti--tag {
 	width: 100%;
 	flex-direction: column;
 	gap: 0.5rem;
+}
+
+.add-new-form input:not([name="ingredients"]), select, option, textarea {
+	padding: .5rem;
+	border-radius: 20px;
+	border: 1px solid #b6b6b6;
+	outline: none;
+	align-self: center;
+	min-width: 250px;
+}
+
+.add-new-form input:not([name="ingredients"]):focus, select:focus, textarea:focus{
+	outline: 1px solid #008080;
+	
+}
+
+textarea {
+	align-self: stretch;
+}
+
+select {
+	padding-right: 1rem;
 }
 
 .add-new-btn {
