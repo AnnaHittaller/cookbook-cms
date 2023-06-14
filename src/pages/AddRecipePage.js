@@ -2,6 +2,7 @@ import { useState } from "react";
 import MainLayout from "../components/MainLayout";
 import "../styles/addRecipe.css";
 import { TagsInput } from "react-tag-input-component";
+import axios from "axios";
 //import client from "../utils/Contentful";
 
 function AddRecipePage() {
@@ -15,10 +16,6 @@ function AddRecipePage() {
 	const [recipeTitle, setRecipeTitle] = useState();
 	const [slug, setSlug] = useState("");
 	const [summary, setSummary] = useState("");
-	//console.log(ingredients);
-
-	//console.log("client", client);
-
 
 
 	let today = new Date();
@@ -35,107 +32,132 @@ function AddRecipePage() {
 	}
 
 	today = `${yyyy}-${mm}-${dd}`;
-	console.log(today);
 
 
-	const handlesubmit = (e) => {
+	
+const createAssetFromFiles = async (file) => {
+	try {
+		console.log("Creating asset...");
+		const uploadResponse = await axios.post(
+			`https://upload.contentful.com/spaces/${process.env.REACT_APP_CONTENTFUL_SPACE_ID}/uploads`,
+			file,
+			{
+				headers: {
+					"Content-Type": "application/octet-stream",
+					Authorization: `Bearer ${process.env.REACT_APP_CM_TOKEN}`,
+				},
+			}
+		);
 
+		console.log("Upload response:", uploadResponse.data);
 
+		const assetData = {
+			fields: {
+				title: {
+					"en-US": file.name,
+				},
+				file: {
+					"en-US": {
+						contentType: file.type,
+						fileName: file.name,
+						uploadFrom: {
+							sys: {
+								type: "Link",
+								linkType: "Upload",
+								id: uploadResponse.data.sys.id,
+							},
+						},
+					},
+				},
+			},
+		};
+
+		const createAssetResponse = await axios.post(
+			`https://api.contentful.com/spaces/${process.env.REACT_APP_CONTENTFUL_SPACE_ID}/environments/master/assets`,
+			assetData,
+			{
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${process.env.REACT_APP_CONTENTFUL_ACCESS_TOKEN}`,
+				},
+			}
+		);
+
+		console.log("Create asset response:", createAssetResponse.data);
+
+		return createAssetResponse.data;
+	} catch (error) {
+		console.log("Asset creation failed:", error.message);
+		throw error;
+	}
+};
+
+	const handlesubmit = async (e) => {
 		e.preventDefault();
-		//const today = new Date().toLocaleDateString();
 		setDate(today);
-		//console.log(recipeTitle);
-
 		let slugTitle = recipeTitle.toLowerCase().split(" ").join("-");
 		setSlug(slugTitle);
-		//console.log(slug);
+		console.log("recipe image", recipeImage);
 
-
-		const contentful = require("contentful-management");
-
-		const client = contentful.createClient({
-			accessToken: process.env.REACT_APP_CONTENTFUL_ACCESS_TOKEN,
-		});
-
-		// client
-		// 	.getSpace(process.env.REACT_APP_CONTENTFUL_SPACE_ID)
-		// 	.then((space) => space.getEnvironment("master"))
-		// 	.then((environment) =>
-		// 		environment.createEntry("recipeCard", {
-		// 			fields: {
-		// 				recipeTitle: {
-		// 					"en-US": recipeTitle,
-		// 				},
-		// 				cookingTime: {
-		// 					"en-US": cookingTime,
-		// 				},
-		// 				summary: {
-		// 					"en-US": summary,
-		// 				},
-		// 				prep1: {
-		// 					"en-US": prep1,
-		// 				},
-		// 				date: {
-		// 					"en-US": date,
-		// 				},
-		// 				slug: {
-		// 					"en-US": slug,
-		// 				},
-		// 				featured: {
-		// 					"en-US": featured,
-		// 				},
-		// 			},
-		// 		})
-		// 	)
-		// 	.then((entry) => console.log(entry))
-		// 	.catch(console.error);
 
 		try {
-			const response = await fetch(
+    		const assetData = await createAssetFromFiles(recipeImage);
+			const payload = {
+					fields: {
+						recipeTitle: {
+							"en-US": recipeTitle,
+						},
+						cookingTime: {
+							"en-US": cookingTime,
+						},
+						summary: {
+							"en-US": summary,
+						},
+						prep1: {
+							"en-US": prep1,
+						},
+						date: {
+							"en-US": date,
+						},
+						slug: {
+							"en-US": slug,
+						},
+						featured: {
+							"en-US": featured ? "yes" : "no",
+						},
+						category: {
+							"en-US": category,
+						},
+						ingredients: {
+							"en-US": ingredients,
+						},
+						recipeImage: {
+							"en-US": {
+								sys: {
+									type: "Link",
+									linkType: "Asset",
+									id: assetData.sys.id,
+								},
+							},
+						},
+					},
+				}
+
+				console.log("Payload:", payload); 
+
+			const response = await axios.post(
 				`https://api.contentful.com/spaces/${process.env.REACT_APP_CONTENTFUL_SPACE_ID}/environments/master/entries`,
+				payload,
 				{
-					method: "POST",
 					headers: {
 						"Content-Type": "application/vnd.contentful.management.v1+json",
 						Authorization: `Bearer ${process.env.REACT_APP_CONTENTFUL_CM_TOKEN}`,
-						"X-Contentful-Content-Type": "recipeCard",
-						//accessToken: process.env.REACT_APP_CONTENTFUL_CM_TOKEN,
 					},
-					body: JSON.stringify({
-						fields: {
-							recipeTitle: {
-								"en-US": recipeTitle,
-							},
-							cookingTime: {
-								"en-US": cookingTime,
-							},
-							summary: {
-								"en-US": summary,
-							},
-							prep1: {
-								"en-US": prep1,
-							},
-							date: {
-								"en-US": date,
-							},
-							slug: {
-								"en-US": slug,
-							},
-							featured: {
-								"en-US": featured,
-							},
-						},
-					}),
 				}
 			);
 
-			if (response.ok) {
-				console.log("New recipe created successfully!");
-				//const data = await response.json();
-				//console.log(data);
-			} else {
-				console.error("Something went wrong...");
-			}
+			console.log("New recipe created successfully!");
+			console.log(response.data);
 		} catch (error) {
 			console.error(error);
 		}
@@ -144,7 +166,7 @@ function AddRecipePage() {
 	const handleImageChange = (event) => {
 		const selectedImage = event.target.files[0];
 		setRecipeImage(URL.createObjectURL(selectedImage));
-
+		//setRecipeImage(selectedImage);
 	};
 
 	return (
@@ -152,29 +174,41 @@ function AddRecipePage() {
 			<div className="page">
 				<h1>Add a new recipe</h1>
 				<form className="add-new-form" onSubmit={handlesubmit}>
-					<label>
+					<label htmlFor="recipeTitle">
 						Recipe title:
-
-						<input type="text"
-
+						<input
+							type="text"
+							id="recipeTitle"
 							maxlength="256"
 							value={recipeTitle}
 							onChange={(e) => setRecipeTitle(e.target.value)}
 							name="recipeTitle"
-
 							placeHolder="Enter recipe title"
-							required />
+							required
+						/>
 					</label>
 					<div required>
-						<label className="image" htmlFor="image">Image:</label>
-						<input type="file" id="image" accept="image/*" onChange={handleImageChange} />
-						<div>{recipeImage && <img src={recipeImage} alt="Selected" width="100%" />}</div>
-
+						<label className="image" htmlFor="image">
+							Image:
+						</label>
+						<input
+							type="file"
+							id="image"
+							accept="image/*"
+							onChange={handleImageChange}
+						/>
+						<div>
+							{recipeImage && (
+								<img src={recipeImage} alt="Selected" width="100%" />
+							)}
+						</div>
 					</div>
-					<label value={category} onChange={(e) => setCategory(e.target.value)} required>
+					<label
+						value={category}
+						onChange={(e) => setCategory(e.target.value)}
+						required>
 						Category:
-						<select name="category" >
-
+						<select name="category">
 							<option value="">Select an option</option>
 							<option value="breakfast">Breakfast</option>
 							<option value="dessert">Dessert</option>
@@ -190,7 +224,6 @@ function AddRecipePage() {
 						Cooking time in minutes:
 						<input
 							type="number"
-
 							value={cookingTime}
 							onChange={(e) => setCookingTime(e.target.value)}
 							name="cookingTitle"
@@ -198,22 +231,19 @@ function AddRecipePage() {
 							step="1"
 							min="1"
 							max="300"
-
 						/>
 					</label>
 					<label required>
 						Summary:
-						<textarea type="text"
+						<textarea
+							type="text"
 							value={summary}
-							onChange={(e) =>
-								setSummary(e.target.value)}
+							onChange={(e) => setSummary(e.target.value)}
 							name="summary"
 							placeHolder="Enter summary"
 							maxlength="256"
-							rows="3" />
-
-
-
+							rows="3"
+						/>
 					</label>
 					<label>
 						Ingredients:
@@ -223,30 +253,51 @@ function AddRecipePage() {
 							name="ingredients"
 							placeHolder="Enter ingredients"
 							isEditOnRemove={true}
-						// required
+							// required
 						/>
 					</label>
 
 					<label required>
 						Preparation:
-						<textarea type="text"
+						<textarea
+							type="text"
 							value={prep1}
-							onChange={(e) =>
-								setPrep1(e.target.value)}
+							onChange={(e) => setPrep1(e.target.value)}
 							name="prep1"
 							placeHolder="Enter preparation steps"
-							maxlength="50000" />
+							maxlength="50000"
+						/>
 					</label>
-					<div className="featured-label" required value={featured} onChange={(e) => setFeatured(e.target.value)}>
+					<div
+						className="featured-label"
+						// required
+						// value={featured}
+						// onChange={(e) => setFeatured(e.target.value)}
+					>
 						<p>Featured:</p>
 						<div>
 							<div>
-								<input type="radio" id="no" name="featured" value="no" defaultChecked />
-								<label for="no">No</label>
+								<input
+									type="radio"
+									id="no"
+									name="featured"
+									value="no"
+									defaultChecked
+									checked={!featured}
+									onChange={(e) => setFeatured(false)}
+								/>
+								<label htmlFor="no">No</label>
 							</div>
 							<div>
-								<input type="radio" id="yes" name="featured" value="yes" />
-								<label for="yes">Yes</label>
+								<input
+									type="radio"
+									id="yes"
+									name="featured"
+									value="yes"
+									checked={featured}
+									onChange={(e) => setFeatured(true)}
+								/>
+								<label htmlFor="yes">Yes</label>
 							</div>
 						</div>
 					</div>
@@ -257,8 +308,8 @@ function AddRecipePage() {
 						Add recipe
 					</button>
 				</form>
-			</div >
-		</MainLayout >
+			</div>
+		</MainLayout>
 	);
 }
 
